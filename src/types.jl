@@ -18,8 +18,6 @@ Base.@kwdef struct Config
     serverless_repo::String
 end
 
-@enum RegistrationType NewPackage NewVersion
-
 struct User
     username::String
 end
