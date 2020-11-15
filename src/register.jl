@@ -27,7 +27,7 @@ end
 end
 
 """
-    register(issue_title; kwargs...)
+    register(; user, issue_title, kwargs...)
 
 Register a new package or a new version of an existing package.
 """
