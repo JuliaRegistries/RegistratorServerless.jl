@@ -106,6 +106,3 @@ end
     end
     return nothing
 end
-
-# RegistratorServerless.register(; user = "DilumAluthge", issue_title = "register JuliaRegistries/CompatHelper.jl")
-# RegistratorServerless.register(; user = "DilumAluthge", issue_title = "register JuliaRegistries/CompatHelper.jl branch=dpa/foo-bar")
