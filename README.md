@@ -6,4 +6,21 @@
 [![Coverage](https://codecov.io/gh/JuliaRegistries/RegistratorServerless.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/JuliaRegistries/RegistratorServerless.jl)
 
 ```yml
+name: registrator_issues
+on:
+  issues:
+    types: [opened, reopened]
+jobs:
+  registrator_issues:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: julia-actions/setup-julia@4469f5b9da960ff174efa528fea5889f8e873609 # v1.2.2
+        with:
+          version: 'nightly'
+      - run: julia -e 'using Pkg; Pkg.add(Pkg.PackageSpec(url = "https://github.com/JuliaRegistries/RegistratorServerless.jl.git", rev = "master"))'
+      - run: julia  -e 'using RegistratorServerless; user = "${{ github.actor }}"; issue_title = "${{ github.event.issue.title }}"; @info("", issue_title, user); RegistratorServerless.register(; user=user, issue_title=issue_title)'
+        env:
+          REGISTRATOR_GITHUB_TOKEN: ${{ secrets.DILUMALUTHGEBOT_TOKEN }}
+          REGISTRATOR_REGISTRY: 'JuliaRegistries/General'
+          REGISTRATOR_SERVERLESS_REPO: 'JuliaRegistries/General'
 ```
