@@ -7,9 +7,17 @@
 
 ## Usage
 
-Open a new issue on your registry where the title of the issue is one of the following:
-- `register MyOrganization/MyPackage.jl`
-- `register MyOrganization/MyPackage.jl branch=my-branch-name`
+Open a new issue on your registry where the title of the issue is something like this:
+- `register MyUsername/MyPackage.jl`
+- `register MyUsername/MyPackage.jl branch=some-branch-name`
+- `register SomeOrganization/MyPackage.jl`
+- `register SomeOrganization/MyPackage.jl branch=some-branch-name`
+
+Please note: in order to register, you must be either:
+1. The owner of the repository
+2. A member of the organization that owns the repository
+
+If you are a member of the organization, please make sure that your membership is public. For more details, please see [these instructions for publicizing your organization membership](https://docs.github.com/en/free-pro-team@latest/github/setting-up-and-managing-your-github-user-account/publicizing-or-hiding-organization-membership).
 
 ## Installing 
 
