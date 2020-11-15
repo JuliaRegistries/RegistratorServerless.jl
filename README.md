@@ -35,7 +35,7 @@ jobs:
         with:
           version: 'nightly'
       - run: julia -e 'using Pkg; Pkg.add(Pkg.PackageSpec(url = "https://github.com/JuliaRegistries/RegistratorServerless.jl.git", rev = "master"))'
-      - run: julia  -e 'using RegistratorServerless; user = "${{ github.actor }}"; issue_title = "${{ github.event.issue.title }}"; @info("", issue_title, user); RegistratorServerless.register(; user=user, issue_title=issue_title)'
+      - run: julia -e 'using RegistratorServerless; user = "${{ github.actor }}"; issue_title = "${{ github.event.issue.title }}"; @info("", issue_title, user); RegistratorServerless.register(; user=user, issue_title=issue_title)'
         env:
           REGISTRATOR_GITHUB_TOKEN: ${{ secrets.DILUMALUTHGEBOT_TOKEN }}
           REGISTRATOR_REGISTRY: 'JuliaRegistries/General'
