@@ -1,0 +1,19 @@
+name = "RegistratorServerless"
+uuid = "4d0f646e-0bab-4433-b529-a8881cce99f4"
+authors = ["JuliaRegistries contributors"]
+version = "1.0.0-DEV"
+
+[deps]
+GitHub = "bc5e4493-9b4d-5f90-b8aa-2b2bcaad7a26"
+Registrator = "4418983a-e44d-11e8-3aec-9789530b3b3e"
+
+[compat]
+GitHub = "5.1.8"
+Registrator = "1.2.2"
+julia = "1.5"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]

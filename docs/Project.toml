@@ -1,0 +1,3 @@
+[deps]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+RegistratorServerless = "4d0f646e-0bab-4433-b529-a8881cce99f4"
