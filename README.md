@@ -5,6 +5,15 @@
 [![Build Status](https://github.com/JuliaRegistries/RegistratorServerless.jl/workflows/CI/badge.svg)](https://github.com/JuliaRegistries/RegistratorServerless.jl/actions)
 [![Coverage](https://codecov.io/gh/JuliaRegistries/RegistratorServerless.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/JuliaRegistries/RegistratorServerless.jl)
 
+## Usage
+
+Open a new issue on your registry where the title of the issue is one of the following:
+- `register MyOrganization/MyPackage.jl`
+- `register MyOrganization/MyPackage.jl branch=my-branch-name`
+
+## Installing 
+
+In your registry, create a new file named `.github/workflows/registrator_issues.yml` with the following contents:
 ```yml
 name: registrator_issues
 on:
