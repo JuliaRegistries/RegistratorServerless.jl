@@ -20,17 +20,21 @@ end
 
 @enum RegistrationType NewPackage NewVersion
 
+struct User
+    username::String
+end
+
 Base.@kwdef struct RegistrationRequest
-    git_reference::String
-    package_name::String
-    registration_type::RegistrationType
+    branch::String = ""
     repo::String
     subdir::String = ""
-    user::String
-    version::VersionNumber
 end
 
 struct AlwaysAssertionError <: Exception
+    msg::String
+end
+
+struct UserNotProvidedError <: Exception
     msg::String
 end
 
@@ -38,4 +42,9 @@ struct UserNotAuthorizedError <: Exception
     msg::String
     user::String
     repo::String
+end
+
+struct IssueTitleError <: Exception
+    msg::String
+    issue_title::String
 end
