@@ -5,7 +5,7 @@ function create_or_update_pull_request(repo::GitHub.Repo, params; auth)
     try
         new_pr = GitHub.create_pull_request(repo; auth, params)
         @info("Created a new pull request: $(repo.full_name)#$(new_pr.number)")
-        return result
+        return new_pr
     catch ex
         # If it was already created, search for it so we can update it:
         if Registrator.CommentBot.is_pr_exists_exception(ex)

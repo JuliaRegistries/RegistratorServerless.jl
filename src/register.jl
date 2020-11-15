@@ -27,34 +27,43 @@ end
 end
 
 """
-    register(; kwargs...)
+    register(issue_title; kwargs...)
 
 Register a new package or a new version of an existing package.
 """
-@inline function register(; kwargs...)
+@inline function register(; issue_title = nothing, kwargs...)
     kwargs_dict = Dict(kwargs)
+    user = User!(kwargs_dict)
     config = Config!(kwargs_dict)
-    remaining_kwargs = NamedTuple(kwargs_dict)
-    registration_request = RegistrationRequest(; remaining_kwargs...)
+    parse_trigger_issue_title!(kwargs_dict, issue_title)
+    new_kwargs = NamedTuple(kwargs_dict)
+    registration_request = RegistrationRequest(; new_kwargs...)
+    return register(config, user, registration_request)
+end
+
+@inline function register(config::Config, user::User, registration_request::RegistrationRequest)
     auth = GitHub.authenticate(config)
-    if user_is_authorized_to_register(registration_request.user, registration_request.repo; auth)
+    if user_is_authorized_to_register(user.username, registration_request.repo; auth)
         whoami = GitHub.whoami(; auth)
         @info("Authenticated to GitHub as $(whoami.login)")
-        @info("User is authorized to register", registration_request.user, registration_request.repo)
+        @info("User is authorized to register", user, registration_request.repo)
         package_url_unauthenticated = "https://$(config.gh_hostname_for_clone)/$(registration_request.repo).git"
         registry_url_authenticated = "https://$(whoami.login):$(config.github_token[])@$(config.gh_hostname_for_clone)/$(config.registry).git"
         with_cloned_repo(package_url_unauthenticated) do cloned_package_path
             with_cloned_repo(registry_url_authenticated) do cloned_registry_path
+                cd(cloned_package_path)
+                if !isempty(strip(registration_request.branch))
+                    run(`git checkout $(strip(registration_request.branch))`)
+                end
+                run(`git config user.name "JuliaRegistrator"`)
+                run(`git config user.email "contact@julialang.org"`)
                 cd(cloned_registry_path)
                 run(`git checkout master`)
-                pr_branch_name = "dpa/just-a-test"
+                pr_branch_name = get_pr_branch_name(cloned_package_path)
                 run(`git checkout -B $(pr_branch_name)`)
                 run(`git config user.name "Registrator"`)
                 run(`git config user.email "ci@juliacomputing.com"`)
-                cd(cloned_package_path)
-                run(`git checkout $(registration_request.git_reference)`)
-                run(`git config user.name "Registrator"`)
-                run(`git config user.email "ci@juliacomputing.com"`)
+
                 cloned_registry = ClonedRegistry(cloned_registry_path)
                 cloned_package = ClonedPackage(cloned_package_path)
                 @info "" cloned_registry.path cloned_package.path
@@ -69,6 +78,7 @@ Register a new package or a new version of an existing package.
                 cd(cloned_registry_path)
                 commit_message = read(`git log -1 --pretty=%B`, String)
                 pr_title, pr_body = _get_pr_title_and_body(commit_message)
+                pr_body *= "\nCreated by: @$(user.username)"
                 registry_gh_repo = GitHub.repo(config.registry)
                 pr_params = Dict()
                 pr_params["head"] = pr_branch_name
@@ -92,7 +102,10 @@ Register a new package or a new version of an existing package.
         If you do not meet either of those criteria, you will need to use either
         the Registrator comment bot or the Registrator web interface.
         """
-        throw(UserNotAuthorizedError(msg, registration_request.user, registration_request.repo))
+        throw(UserNotAuthorizedError(msg, user, registration_request.repo))
     end
     return nothing
 end
+
+# RegistratorServerless.register(; user = "DilumAluthge", issue_title = "register JuliaRegistries/CompatHelper.jl")
+# RegistratorServerless.register(; user = "DilumAluthge", issue_title = "register JuliaRegistries/CompatHelper.jl branch=dpa/foo-bar")
