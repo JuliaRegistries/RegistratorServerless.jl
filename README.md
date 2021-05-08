@@ -4,6 +4,8 @@
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://JuliaRegistries.github.io/RegistratorServerless.jl/dev)
 [![Build Status](https://github.com/JuliaRegistries/RegistratorServerless.jl/workflows/CI/badge.svg)](https://github.com/JuliaRegistries/RegistratorServerless.jl/actions)
 
+RegistratorServerless is still experimental software and is not currently suitable for use in production.
+
 ## Usage
 
 Open a new issue on your registry where the title of the issue is something like this:
@@ -17,6 +19,8 @@ Please note: in order to register, you must be either:
 2. A member of the organization that owns the repository
 
 If you are a member of the organization, please make sure that your membership is public. For more details, please see [these instructions for publicizing your organization membership](https://docs.github.com/en/free-pro-team@latest/github/setting-up-and-managing-your-github-user-account/publicizing-or-hiding-organization-membership).
+
+Note: RegistratorServerless allows a user to register a package if they are a member of the organization that owns the repository, even if they do not actually have commit access (or any access, for that matter) to the repository.
 
 ## Installing 
 
